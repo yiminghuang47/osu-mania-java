@@ -18,9 +18,10 @@ public class Player extends JComponent {
     private Timer judgementTimer;
     private String judgementMessage;
     private final boolean SHOW_JUDGEMENT_LINES = false;
-    
+
     private int noteCount;
     private int score;
+
     public Player() {
         judgementMessage = "";
         score = 0;
@@ -40,10 +41,22 @@ public class Player extends JComponent {
         allNotes.get(0).add(new Note(50, -350));
 
         Timer timer = new Timer(30, e -> {
-            for (List<Note> notes : allNotes) {
+            for (int lane = 0; lane < 4; lane++) {
+                List<Note> notes = allNotes.get(lane);
                 for (Note note : notes) {
                     note.setY(note.getY() + velocity);
+                    
                 }
+            }
+            for (int lane = 0; lane < 4; lane++) {
+                List<Note> notes = allNotes.get(lane);
+                if(notes.size()==0) continue;
+                Note note = notes.get(0);
+                if (note.getY() > Sizes.FRAME_HEIGHT) {
+                    System.out.println(lane);
+                    removeFirstNoteInLane(lane);
+                }
+
             }
             repaint();
         });
@@ -96,16 +109,13 @@ public class Player extends JComponent {
             noteCount++;
             showJudgementMessage();
             judgementMessage = judgement;
-            if(judgementMessage.equals("PERFECT")){
+            if (judgementMessage.equals("PERFECT")) {
                 score += 300;
-            }
-            else if(judgementMessage.equals("GOOD")){
+            } else if (judgementMessage.equals("GOOD")) {
                 score += 100;
-            }
-            else if(judgementMessage.equals("BAD")){
+            } else if (judgementMessage.equals("BAD")) {
                 score += 50;
             }
-            
 
             allNotes.get(lane).remove(0);
         }
@@ -135,20 +145,19 @@ public class Player extends JComponent {
         }
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
-        g2.drawString(String.valueOf(score),350,100);
+        g2.drawString(String.valueOf(score), 350, 100);
         double accuracy = 100.00;
-        if(noteCount!=0){
-            accuracy = (double)score /(300*noteCount) * 100;
+        if (noteCount != 0) {
+            accuracy = (double) score / (300 * noteCount) * 100;
         }
         g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-        g2.drawString(String.format("%.2f",accuracy)+" %",350,150);
-
+        g2.drawString(String.format("%.2f", accuracy) + " %", 350, 150);
 
         g2.setColor(Color.WHITE);
         g2.drawLine(0, Judgements.JUDGEMENT_LINE, 500, Judgements.JUDGEMENT_LINE);
 
         if (SHOW_JUDGEMENT_LINES) {
-            
+
             g2.setColor(Color.YELLOW);
             g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.PERFECT_DIFF, 500,
                     Judgements.JUDGEMENT_LINE + Judgements.PERFECT_DIFF);
@@ -173,16 +182,16 @@ public class Player extends JComponent {
         }
 
         if (showJudgement) {
-            HashMap<String,Color> judgementColor = new HashMap<String,Color>();
-            judgementColor.put("PERFECT",Color.YELLOW);
-            judgementColor.put("GOOD",Color.GREEN);
-            judgementColor.put("BAD",Color.BLUE);
-            judgementColor.put("MISS",Color.RED);
+            HashMap<String, Color> judgementColor = new HashMap<String, Color>();
+            judgementColor.put("PERFECT", Color.YELLOW);
+            judgementColor.put("GOOD", Color.GREEN);
+            judgementColor.put("BAD", Color.BLUE);
+            judgementColor.put("MISS", Color.RED);
 
             g2.setColor(judgementColor.get(judgementMessage));
             g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
-            String centeredString = String.format("%10s",judgementMessage);
-            g2.drawString(centeredString, getWidth() / 2-130, getHeight() / 2);
+            String centeredString = String.format("%10s", judgementMessage);
+            g2.drawString(centeredString, getWidth() / 2 - 130, getHeight() / 2);
         }
     }
 }
