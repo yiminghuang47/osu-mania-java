@@ -28,7 +28,9 @@ public class Note {
     }
     public void draw(Graphics2D g2) {
         g2.setColor(Color.WHITE);
-        g2.fill(new Rectangle(xLeft, yTop, Sizes.NOTE_WIDTH,Sizes.NOTE_HEIGHT ));
+        g2.fill(new Rectangle(xLeft, yTop, Sizes.NOTE_WIDTH,Sizes.NOTE_HEIGHT));
+        g2.setColor(Color.BLACK);
+        g2.draw(new Rectangle(xLeft, yTop, Sizes.NOTE_WIDTH,Sizes.NOTE_HEIGHT));
         
         
     }

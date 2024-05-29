@@ -26,7 +26,7 @@ public class Player extends JComponent {
         judgementMessage = "";
         score = 0;
         noteCount = 0;
-        velocity = 20; // Speed at which the notes fall
+        velocity = 25; // Speed at which the notes fall
         allNotes = (new Beatmap()).getAllNotes();
         /* 
         allNotes = new ArrayList<>();
