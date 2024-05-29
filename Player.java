@@ -27,7 +27,8 @@ public class Player extends JComponent {
         score = 0;
         noteCount = 0;
         velocity = 25; // Speed at which the notes fall
-        allNotes = (new Beatmap()).getAllNotes();
+        Beatmap beatmap = new RandomizedMap();
+        allNotes = beatmap.getAllNotes();
         /* 
         allNotes = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
