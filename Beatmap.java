@@ -9,11 +9,18 @@ public class Beatmap {
             allNotes.add(new ArrayList<Note>());
         }
         
-        for(int i = 0; i < 200; i++){
+        for(int i = 0; i < 1000; i++){
             int randomLane = (int)(Math.random()*4);
-            allNotes.get(randomLane).add(new Note(randomLane*100+50,-i*100));
+            int randomLane2 = (int)(Math.random()*4);
+            while(randomLane==randomLane2){
+                randomLane2 = (int)(Math.random()*4);
+            }
+        
+            allNotes.get(randomLane).add(new Note(randomLane*100+50,-i*100,randomLane));
+            boolean hasTwoNotes = Math.random()<=0.5;
+            if(hasTwoNotes) allNotes.get(randomLane2).add(new Note(randomLane2*100+50,-i*100,randomLane2));
 
-            
+
         }
         /* 
         allNotes.get(0).add(new Note(50, 0));
