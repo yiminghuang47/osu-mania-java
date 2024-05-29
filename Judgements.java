@@ -1,9 +1,9 @@
 public class Judgements {
     public static final int JUDGEMENT_LINE = 450;
-    public static final int PERFECT_DIFF = 50;
-    public static final int GOOD_DIFF = 100;
-    public static final int BAD_DIFF = 150;
-    public static final int MISS_DIFF = 200;
+    public static final int PERFECT_DIFF = 25;
+    public static final int GOOD_DIFF = 75;
+    public static final int BAD_DIFF = 100;
+    public static final int MISS_DIFF = 150;
     public static String getJudgement(int yPos){
         if(yPos>Sizes.FRAME_HEIGHT) return "MISS";
         int diff = Math.abs(yPos+Sizes.NOTE_HEIGHT-JUDGEMENT_LINE);
