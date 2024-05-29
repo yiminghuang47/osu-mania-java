@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import java.util.*;
 
 public class Player extends JComponent {
-    private final List<List<Note>> allNotes;
+    private final ArrayList<ArrayList<Note>> allNotes;
     private final int velocity;
     private final Set<Integer> keysPressed;
     private boolean showJudgement;
@@ -26,19 +26,24 @@ public class Player extends JComponent {
         judgementMessage = "";
         score = 0;
         noteCount = 0;
+        velocity = 20; // Speed at which the notes fall
+        allNotes = (new Beatmap()).getAllNotes();
+        /* 
         allNotes = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             allNotes.add(new ArrayList<>());
         }
-        velocity = 20; // Speed at which the notes fall
-
+        */
         // Add multiple notes at different initial positions
+        /* 
         allNotes.get(0).add(new Note(50, 0));
         allNotes.get(1).add(new Note(150, -100));
         allNotes.get(2).add(new Note(250, -150));
         allNotes.get(3).add(new Note(350, 0));
         allNotes.get(0).add(new Note(50, -250));
         allNotes.get(0).add(new Note(50, -350));
+        */
+
 
         Timer timer = new Timer(30, e -> {
             for (int lane = 0; lane < 4; lane++) {

@@ -13,7 +13,6 @@ public class Judgements {
         else if(diff<=MISS_DIFF) return "MISS";
         else return "NONE"; // no judgement
 
-        // TODO: issue when the note gets out of screen
         
     }
 
