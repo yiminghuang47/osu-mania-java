@@ -22,10 +22,12 @@ public class Player extends JComponent {
     private int noteCount;
     private int score;
     private int combo;
+    private boolean isEnd;
 
     public Player() {
         judgementMessage = "";
         score = 0;
+        isEnd = false;
         noteCount = 0;
         combo = 0;
         velocity = 25; // Speed at which the notes fall
@@ -130,6 +132,9 @@ public class Player extends JComponent {
             }
 
             allNotes.get(lane).remove(0);
+            if(allNotes.get(0).size()==0 && allNotes.get(1).size()==0 && allNotes.get(2).size()==0 && allNotes.get(3).size()==0){
+                isEnd = true;
+            }
         }
     }
 
@@ -150,64 +155,72 @@ public class Player extends JComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        for (List<Note> notes : allNotes) {
-            for (Note note : notes) {
-                note.draw(g2);
+        if(!isEnd){
+                
+            for (List<Note> notes : allNotes) {
+                for (Note note : notes) {
+                    note.draw(g2);
+                }
+            }
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+            g2.drawString(String.valueOf(score), 350, 100);
+            double accuracy = 100.00;
+            if (noteCount != 0) {
+                accuracy = (double) score / (300 * noteCount) * 100;
+            }
+            g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+            g2.drawString(String.format("%.2f", accuracy) + " %", 350, 150);
+
+            g2.setColor(Color.WHITE);
+            g2.drawLine(0, Judgements.JUDGEMENT_LINE, 500, Judgements.JUDGEMENT_LINE);
+
+            if (SHOW_JUDGEMENT_LINES) {
+
+                g2.setColor(Color.YELLOW);
+                g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.PERFECT_DIFF, 500,
+                        Judgements.JUDGEMENT_LINE + Judgements.PERFECT_DIFF);
+                g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.PERFECT_DIFF, 500,
+                        Judgements.JUDGEMENT_LINE - Judgements.PERFECT_DIFF);
+                g2.setColor(Color.GREEN);
+                g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.GOOD_DIFF, 500,
+                        Judgements.JUDGEMENT_LINE + Judgements.GOOD_DIFF);
+                g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.GOOD_DIFF, 500,
+                        Judgements.JUDGEMENT_LINE - Judgements.GOOD_DIFF);
+                g2.setColor(Color.BLUE);
+                g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.BAD_DIFF, 500,
+                        Judgements.JUDGEMENT_LINE - Judgements.BAD_DIFF);
+                g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.BAD_DIFF, 500,
+                        Judgements.JUDGEMENT_LINE + Judgements.BAD_DIFF);
+                g2.setColor(Color.RED);
+                g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.MISS_DIFF, 500,
+                        Judgements.JUDGEMENT_LINE - Judgements.MISS_DIFF);
+                g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.MISS_DIFF, 500,
+                        Judgements.JUDGEMENT_LINE + Judgements.MISS_DIFF);
+
+            }
+
+            if (showJudgement) {
+                HashMap<String, Color> judgementColor = new HashMap<String, Color>();
+                judgementColor.put("PERFECT", Color.YELLOW);
+                judgementColor.put("GOOD", Color.GREEN);
+                judgementColor.put("BAD", Color.BLUE);
+                judgementColor.put("MISS", Color.RED);
+
+                g2.setColor(judgementColor.get(judgementMessage));
+                g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+                String centeredString = String.format("%10s", judgementMessage);
+                g2.drawString(centeredString, getWidth() / 2 - 130, getHeight() / 2);
+                g2.setColor(Color.WHITE);
+                centeredString = String.format("%4s", String.valueOf(combo));
+                g2.drawString(centeredString, getWidth() / 2 - 50, getHeight() / 2+50);
+                
             }
         }
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
-        g2.drawString(String.valueOf(score), 350, 100);
-        double accuracy = 100.00;
-        if (noteCount != 0) {
-            accuracy = (double) score / (300 * noteCount) * 100;
-        }
-        g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-        g2.drawString(String.format("%.2f", accuracy) + " %", 350, 150);
-
-        g2.setColor(Color.WHITE);
-        g2.drawLine(0, Judgements.JUDGEMENT_LINE, 500, Judgements.JUDGEMENT_LINE);
-
-        if (SHOW_JUDGEMENT_LINES) {
-
-            g2.setColor(Color.YELLOW);
-            g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.PERFECT_DIFF, 500,
-                    Judgements.JUDGEMENT_LINE + Judgements.PERFECT_DIFF);
-            g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.PERFECT_DIFF, 500,
-                    Judgements.JUDGEMENT_LINE - Judgements.PERFECT_DIFF);
-            g2.setColor(Color.GREEN);
-            g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.GOOD_DIFF, 500,
-                    Judgements.JUDGEMENT_LINE + Judgements.GOOD_DIFF);
-            g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.GOOD_DIFF, 500,
-                    Judgements.JUDGEMENT_LINE - Judgements.GOOD_DIFF);
-            g2.setColor(Color.BLUE);
-            g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.BAD_DIFF, 500,
-                    Judgements.JUDGEMENT_LINE - Judgements.BAD_DIFF);
-            g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.BAD_DIFF, 500,
-                    Judgements.JUDGEMENT_LINE + Judgements.BAD_DIFF);
-            g2.setColor(Color.RED);
-            g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.MISS_DIFF, 500,
-                    Judgements.JUDGEMENT_LINE - Judgements.MISS_DIFF);
-            g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.MISS_DIFF, 500,
-                    Judgements.JUDGEMENT_LINE + Judgements.MISS_DIFF);
-
-        }
-
-        if (showJudgement) {
-            HashMap<String, Color> judgementColor = new HashMap<String, Color>();
-            judgementColor.put("PERFECT", Color.YELLOW);
-            judgementColor.put("GOOD", Color.GREEN);
-            judgementColor.put("BAD", Color.BLUE);
-            judgementColor.put("MISS", Color.RED);
-
-            g2.setColor(judgementColor.get(judgementMessage));
-            g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
-            String centeredString = String.format("%10s", judgementMessage);
-            g2.drawString(centeredString, getWidth() / 2 - 130, getHeight() / 2);
+        else{
+            // TODO: END SCREEN 
             g2.setColor(Color.WHITE);
-            centeredString = String.format("%4s", String.valueOf(combo));
-            g2.drawString(centeredString, getWidth() / 2 - 50, getHeight() / 2+50);
-            
+            g2.drawString("END SCREEN",50,50);
         }
     }
 }

@@ -13,7 +13,7 @@ public class RandomizedMap2 implements Beatmap{
             allNotes.add(new ArrayList<Note>());
         }
         
-        for(int i = 0; i < 1000; i++){
+        for(int i = 0; i < 50; i++){
             int distance = 125;
             int randomLane = (int)(Math.random()*4);
             int randomLane2 = (int)(Math.random()*4);
