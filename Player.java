@@ -21,13 +21,15 @@ public class Player extends JComponent {
 
     private int noteCount;
     private int score;
+    private int combo;
 
     public Player() {
         judgementMessage = "";
         score = 0;
         noteCount = 0;
+        combo = 0;
         velocity = 25; // Speed at which the notes fall
-        Beatmap beatmap = new RandomizedMap();
+        Beatmap beatmap = new RandomizedMap2();
         allNotes = beatmap.getAllNotes();
         /* 
         allNotes = new ArrayList<>();
@@ -59,7 +61,6 @@ public class Player extends JComponent {
                 if(notes.size()==0) continue;
                 Note note = notes.get(0);
                 if (note.getY() > Sizes.FRAME_HEIGHT) {
-                    System.out.println(lane);
                     removeFirstNoteInLane(lane);
                 }
 
@@ -117,10 +118,15 @@ public class Player extends JComponent {
             judgementMessage = judgement;
             if (judgementMessage.equals("PERFECT")) {
                 score += 300;
+                combo++;
             } else if (judgementMessage.equals("GOOD")) {
                 score += 100;
+                combo++;
             } else if (judgementMessage.equals("BAD")) {
                 score += 50;
+                combo++;
+            } else{
+                combo = 0;
             }
 
             allNotes.get(lane).remove(0);
@@ -198,6 +204,10 @@ public class Player extends JComponent {
             g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
             String centeredString = String.format("%10s", judgementMessage);
             g2.drawString(centeredString, getWidth() / 2 - 130, getHeight() / 2);
+            g2.setColor(Color.WHITE);
+            centeredString = String.format("%4s", String.valueOf(combo));
+            g2.drawString(centeredString, getWidth() / 2 - 50, getHeight() / 2+50);
+            
         }
     }
 }
