@@ -33,6 +33,11 @@ public class Player extends JComponent {
     private Viewer viewer;
     private Timer endScreenTimer;
 
+    private int perfectCount;
+    private int goodCount;
+    private int badCount;
+    private int missCount;
+
     public Player(Beatmap map, Viewer viewer) {
         this.viewer = viewer;
         judgementMessage = "";
@@ -97,8 +102,8 @@ public class Player extends JComponent {
             }
         });
 
-        returnButton = new JButton("Return to Home");
-        returnButton.setBounds(200, 400, 150, 50);
+        returnButton = new JButton("Return");
+        returnButton.setBounds(175, 400, 150, 50);
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,38 +114,46 @@ public class Player extends JComponent {
         add(returnButton);
     }
 
+    
     private void removeFirstNoteInLane(int lane) {
         if (!allNotes.get(lane).isEmpty()) {
             Note firstNote = allNotes.get(lane).get(0);
             String judgement = Judgements.getJudgement(firstNote.getY());
-            if (judgement.equals("NONE"))
-                return;
+            if (judgement.equals("NONE")) return;
             noteCount++;
             showJudgementMessage();
             judgementMessage = judgement;
-            if (judgementMessage.equals("PERFECT")) {
-                score += 300;
-                combo++;
-            } else if (judgementMessage.equals("GOOD")) {
-                score += 100;
-                combo++;
-            } else if (judgementMessage.equals("BAD")) {
-                score += 50;
-                combo++;
-            } else {
-                combo = 0;
+            switch (judgementMessage) {
+                case "PERFECT":
+                    score += 300;
+                    combo++;
+                    perfectCount++;
+                    break;
+                case "GOOD":
+                    score += 200;
+                    combo++;
+                    goodCount++;
+                    break;
+                case "BAD":
+                    score += 100;
+                    combo++;
+                    badCount++;
+                    break;
+                case "MISS":
+                    combo = 0;
+                    missCount++;
+                    break;
             }
             maxCombo = Math.max(combo, maxCombo);
-
+    
             allNotes.get(lane).remove(0);
             if (allNotes.get(0).size() == 0 && allNotes.get(1).size() == 0 && allNotes.get(2).size() == 0
                     && allNotes.get(3).size() == 0) {
-                //isEnd = true;
-                // returnButton.setVisible(true);
                 startEndScreenTimer();
             }
         }
     }
+    
 
     private void startEndScreenTimer() {
         if (endScreenTimer != null && endScreenTimer.isRunning()) {
@@ -167,80 +180,102 @@ public class Player extends JComponent {
         judgementTimer.start();
     }
 
+    
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        if (!isEnd) {
-            for (List<Note> notes : allNotes) {
-                for (Note note : notes) {
-                    note.draw(g2);
-                }
+protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    Graphics2D g2 = (Graphics2D) g;
+    if (!isEnd) {
+        for (List<Note> notes : allNotes) {
+            for (Note note : notes) {
+                note.draw(g2);
             }
-            g2.setColor(Color.WHITE);
-            g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
-            g2.drawString(String.valueOf(score), 350, 100);
-            double accuracy = 100.00;
-            if (noteCount != 0) {
-                accuracy = (double) score / (300 * noteCount) * 100;
-            }
-            g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-            g2.drawString(String.format("%.2f", accuracy) + " %", 350, 150);
-
-            g2.setColor(Color.WHITE);
-            g2.drawLine(0, Judgements.JUDGEMENT_LINE, 500, Judgements.JUDGEMENT_LINE);
-
-            if (SHOW_JUDGEMENT_LINES) {
-                g2.setColor(Color.YELLOW);
-                g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.PERFECT_DIFF, 500,
-                        Judgements.JUDGEMENT_LINE + Judgements.PERFECT_DIFF);
-                g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.PERFECT_DIFF, 500,
-                        Judgements.JUDGEMENT_LINE - Judgements.PERFECT_DIFF);
-                g2.setColor(Color.GREEN);
-                g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.GOOD_DIFF, 500,
-                        Judgements.JUDGEMENT_LINE + Judgements.GOOD_DIFF);
-                g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.GOOD_DIFF, 500,
-                        Judgements.JUDGEMENT_LINE - Judgements.GOOD_DIFF);
-                g2.setColor(Color.BLUE);
-                g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.BAD_DIFF, 500,
-                        Judgements.JUDGEMENT_LINE - Judgements.BAD_DIFF);
-                g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.BAD_DIFF, 500,
-                        Judgements.JUDGEMENT_LINE + Judgements.BAD_DIFF);
-                g2.setColor(Color.RED);
-                g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.MISS_DIFF, 500,
-                        Judgements.JUDGEMENT_LINE - Judgements.MISS_DIFF);
-                g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.MISS_DIFF, 500,
-                        Judgements.JUDGEMENT_LINE + Judgements.MISS_DIFF);
-            }
-
-            if (showJudgement) {
-
-                HashMap<String, Color> judgementColor = new HashMap<>();
-                judgementColor.put("PERFECT", Color.YELLOW);
-                judgementColor.put("GOOD", Color.GREEN);
-                judgementColor.put("BAD", Color.BLUE);
-                judgementColor.put("MISS", Color.RED);
-
-                g2.setColor(judgementColor.get(judgementMessage));
-                g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
-                String centeredString = String.format("%10s", judgementMessage);
-                g2.drawString(centeredString, getWidth() / 2 - 130, getHeight() / 2);
-                g2.setColor(Color.WHITE);
-                centeredString = String.format("%4s", String.valueOf(combo));
-                g2.drawString(centeredString, getWidth() / 2 - 50, getHeight() / 2 + 50);
-            }
-        } else {
-            g2.setColor(Color.WHITE);
-            g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-            g2.drawString("Game Over", 150, 100);
-
-            g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-            g2.drawString("Final Score: " + score, 150, 200);
-            double accuracy = (double) score / (300 * noteCount) * 100;
-            g2.drawString("Final Accuracy: " + String.format("%.2f", accuracy) + " %", 150, 250);
-            g2.drawString("Max Combo: " + maxCombo, 150, 300);
-
-            returnButton.setVisible(true);
         }
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+        g2.drawString(String.valueOf(score), 350, 100);
+        double accuracy = 100.00;
+        if (noteCount != 0) {
+            accuracy = (double) score / (300 * noteCount) * 100;
+        }
+        g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+        g2.drawString(String.format("%.2f", accuracy) + " %", 350, 150);
+
+        g2.setColor(Color.WHITE);
+        g2.drawLine(0, Judgements.JUDGEMENT_LINE, 500, Judgements.JUDGEMENT_LINE);
+
+        if (SHOW_JUDGEMENT_LINES) {
+            g2.setColor(Color.YELLOW);
+            g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.PERFECT_DIFF, 500,
+                    Judgements.JUDGEMENT_LINE + Judgements.PERFECT_DIFF);
+            g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.PERFECT_DIFF, 500,
+                    Judgements.JUDGEMENT_LINE - Judgements.PERFECT_DIFF);
+            g2.setColor(Color.GREEN);
+            g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.GOOD_DIFF, 500,
+                    Judgements.JUDGEMENT_LINE + Judgements.GOOD_DIFF);
+            g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.GOOD_DIFF, 500,
+                    Judgements.JUDGEMENT_LINE - Judgements.GOOD_DIFF);
+            g2.setColor(Color.BLUE);
+            g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.BAD_DIFF, 500,
+                    Judgements.JUDGEMENT_LINE - Judgements.BAD_DIFF);
+            g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.BAD_DIFF, 500,
+                    Judgements.JUDGEMENT_LINE + Judgements.BAD_DIFF);
+            g2.setColor(Color.RED);
+            g2.drawLine(0, Judgements.JUDGEMENT_LINE - Judgements.MISS_DIFF, 500,
+                    Judgements.JUDGEMENT_LINE - Judgements.MISS_DIFF);
+            g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.MISS_DIFF, 500,
+                    Judgements.JUDGEMENT_LINE + Judgements.MISS_DIFF);
+        }
+
+        if (showJudgement) {
+            HashMap<String, Color> judgementColor = new HashMap<>();
+            judgementColor.put("PERFECT", Color.YELLOW);
+            judgementColor.put("GOOD", Color.GREEN);
+            judgementColor.put("BAD", Color.BLUE);
+            judgementColor.put("MISS", Color.RED);
+
+            g2.setColor(judgementColor.get(judgementMessage));
+            g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+            String centeredString = String.format("%10s", judgementMessage);
+            g2.drawString(centeredString, getWidth() / 2 - 130, getHeight() / 2);
+            g2.setColor(Color.WHITE);
+            centeredString = String.format("%4s", String.valueOf(combo));
+            g2.drawString(centeredString, getWidth() / 2 - 50, getHeight() / 2 + 50);
+        }
+    } else {
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+        g2.drawString("SCORE " + score, 150, 100);
+        g2.setColor(Color.YELLOW);
+        g2.drawString("PERFECT", 50, 150);
+        g2.setColor(Color.WHITE);
+        g2.drawString(perfectCount+"", 200, 150);
+
+        g2.setColor(Color.GREEN);
+        g2.drawString("GOOD", 275, 150);
+        g2.setColor(Color.WHITE);
+        g2.drawString(goodCount+"", 375, 150);
+
+        g2.setColor(Color.BLUE);
+        g2.drawString("BAD", 50, 225);
+        g2.setColor(Color.WHITE);
+        g2.drawString(badCount+"", 200, 225);
+
+        g2.setColor(Color.RED);
+        g2.drawString("MISS", 275, 225);
+        g2.setColor(Color.WHITE);
+        g2.drawString(missCount+"", 375, 225);
+
+        g2.drawString("Max Combo", 50, 300);
+        g2.drawString(maxCombo+"", 50, 350);
+        double accuracy = (double) score / (300 * noteCount) * 100;
+        g2.drawString("Accuracy", 275, 300);
+        
+        g2.drawString(String.format("%.2f", accuracy) + " %", 275, 350);
+        
+
+        returnButton.setVisible(true);
     }
+}
+
 }
