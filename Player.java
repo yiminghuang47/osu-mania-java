@@ -214,7 +214,7 @@ protected void paintComponent(Graphics g) {
         }
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
-        g2.drawString(String.valueOf(score), 350, 100);
+        g2.drawString(String.format("%08d",score), 300, 100);
         double accuracy = 100.00;
         if (noteCount != 0) {
             accuracy = (double) score / (300 * noteCount) * 100;

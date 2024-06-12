@@ -1,10 +1,10 @@
 
 import java.util.*;
 
-public class RandomizedMapHard implements Beatmap {
+public class RandomizedMapExtreme implements Beatmap {
     private ArrayList<ArrayList<Note>> allNotes;
 
-    public RandomizedMapHard(SongInfo song) {
+    public RandomizedMapExtreme(SongInfo song) {
         allNotes = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
@@ -22,8 +22,8 @@ public class RandomizedMapHard implements Beatmap {
         // double bpm = song.getBpm();
         // double distance = 60.0/bpm * Constants.NOTE_VELOCITY / Constants.REFRESH_RATE
         // * 1000; // TODO: fix distance
-        double distance = song.getDistance() / 2;
-        int length = song.getLength() * 2;
+        double distance = song.getDistance() / 4;
+        int length = song.getLength() * 4;
         // System.out.println(bpm);
         // System.out.println(distance);
         int prevLane1 = -1;
@@ -32,7 +32,7 @@ public class RandomizedMapHard implements Beatmap {
             boolean noNotes = Math.random() < 0.05;
             if(noNotes) continue;
             int randomLane = (int) (Math.random() * 4);
-            boolean repeatNotes = Math.random() < 0.3;
+            boolean repeatNotes = Math.random() < 0;
             if (!repeatNotes) {
 
                 while (randomLane == prevLane1 || randomLane == prevLane2) {
@@ -48,7 +48,7 @@ public class RandomizedMapHard implements Beatmap {
             allNotes.get(randomLane)
                     .add(new Note(randomLane * 100 + 50, -song.getOffset() + (int) (-i * distance), randomLane));
             prevLane1 = randomLane;
-            boolean hasTwoNotes = Math.random() <= 0.5;
+            boolean hasTwoNotes = Math.random() <= 0.0;
 
             if (hasTwoNotes) {
                 allNotes.get(randomLane2)

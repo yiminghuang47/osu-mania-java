@@ -15,7 +15,7 @@ public class DifficultySelection extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        JLabel titleLabel = new JLabel("Select Difficulty for " + songName);
+        JLabel titleLabel = new JLabel("<html>Select Difficulty for <br>" + songName + "</html>");
         titleLabel.setFont(new Font("TimesRoman", Font.PLAIN, 40));
         titleLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
@@ -51,5 +51,15 @@ public class DifficultySelection extends JPanel {
         });
         gbc.gridy = 3;
         add(hardButton, gbc);
+
+        JButton extremeButton = new JButton("Extreme");
+        extremeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewer.startGame(new RandomizedMapExtreme(song),song);
+            }
+        });
+        gbc.gridy = 4;
+        add(extremeButton, gbc);
     }
 }
