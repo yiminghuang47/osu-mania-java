@@ -27,6 +27,7 @@ public class Player extends JComponent {
     private int noteCount;
     private int score;
     private int combo;
+    private int maxCombo;
     private boolean isEnd;
     private JButton returnButton;
     private Viewer viewer;
@@ -126,6 +127,7 @@ public class Player extends JComponent {
             } else {
                 combo = 0;
             }
+            maxCombo = Math.max(combo,maxCombo);
 
             allNotes.get(lane).remove(0);
             if (allNotes.get(0).size() == 0 && allNotes.get(1).size() == 0 && allNotes.get(2).size() == 0 && allNotes.get(3).size() == 0) {
@@ -212,9 +214,16 @@ public class Player extends JComponent {
             }
         } else {
             g2.setColor(Color.WHITE);
-            g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
-            g2.drawString("END SCREEN", 200, 200);
-            returnButton.setVisible(true);
+        g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+        g2.drawString("Game Over", 150, 100);
+        
+        g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+        g2.drawString("Final Score: " + score, 150, 200);
+        double accuracy = (double) score / (300 * noteCount) * 100;
+        g2.drawString("Final Accuracy: " + String.format("%.2f", accuracy) + " %", 150, 250);
+        g2.drawString("Max Combo: " + maxCombo, 150, 300); 
+
+        returnButton.setVisible(true);
         }
     }
 }
