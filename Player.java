@@ -242,6 +242,12 @@ protected void paintComponent(Graphics g) {
             centeredString = String.format("%4s", String.valueOf(combo));
             g2.drawString(centeredString, getWidth() / 2 - 50, getHeight() / 2 + 50);
         }
+        g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+        
+        g2.drawString("D",85,525);
+        g2.drawString("F",185,525);
+        g2.drawString("J",285,525);
+        g2.drawString("K",385,525);
     } else {
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));

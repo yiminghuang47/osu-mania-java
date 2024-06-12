@@ -13,7 +13,7 @@ public class HomeScreen extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        JLabel titleLabel = new JLabel("OSU Mania");
+        JLabel titleLabel = new JLabel("Choose Level");
         titleLabel.setFont(new Font("TimesRoman", Font.PLAIN, 40));
         titleLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
