@@ -24,14 +24,14 @@ public class Player extends JComponent {
     private int combo;
     private boolean isEnd;
 
-    public Player() {
+    public Player(Beatmap map) {
         judgementMessage = "";
         score = 0;
         isEnd = false;
         noteCount = 0;
         combo = 0;
         velocity = 25; // Speed at which the notes fall
-        Beatmap beatmap = new RandomizedMap2();
+        Beatmap beatmap = map;
         allNotes = beatmap.getAllNotes();
         /* 
         allNotes = new ArrayList<>();
