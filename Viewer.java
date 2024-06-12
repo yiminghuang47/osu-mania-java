@@ -35,7 +35,7 @@ public class Viewer {
 
     public void startGame(Beatmap map) {
         frame.remove(homeScreen);
-        player = new Player(map);
+        player = new Player(map,this);
         frame.add(player);
         frame.revalidate();
         frame.repaint();

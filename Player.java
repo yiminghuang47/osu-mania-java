@@ -2,13 +2,18 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.Timer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
-import java.util.*;
+import javax.swing.Timer;
 
 public class Player extends JComponent {
     private final ArrayList<ArrayList<Note>> allNotes;
@@ -23,8 +28,11 @@ public class Player extends JComponent {
     private int score;
     private int combo;
     private boolean isEnd;
+    private JButton returnButton;
+    private Viewer viewer;
 
-    public Player(Beatmap map) {
+    public Player(Beatmap map, Viewer viewer) {
+        this.viewer = viewer;
         judgementMessage = "";
         score = 0;
         isEnd = false;
@@ -33,48 +41,27 @@ public class Player extends JComponent {
         velocity = 25; // Speed at which the notes fall
         Beatmap beatmap = map;
         allNotes = beatmap.getAllNotes();
-        /* 
-        allNotes = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            allNotes.add(new ArrayList<>());
-        }
-        */
-        // Add multiple notes at different initial positions
-        /* 
-        allNotes.get(0).add(new Note(50, 0));
-        allNotes.get(1).add(new Note(150, -100));
-        allNotes.get(2).add(new Note(250, -150));
-        allNotes.get(3).add(new Note(350, 0));
-        allNotes.get(0).add(new Note(50, -250));
-        allNotes.get(0).add(new Note(50, -350));
-        */
-
 
         Timer timer = new Timer(30, e -> {
             for (int lane = 0; lane < 4; lane++) {
                 List<Note> notes = allNotes.get(lane);
                 for (Note note : notes) {
                     note.setY(note.getY() + velocity);
-                    
                 }
             }
             for (int lane = 0; lane < 4; lane++) {
                 List<Note> notes = allNotes.get(lane);
-                if(notes.size()==0) continue;
+                if (notes.size() == 0) continue;
                 Note note = notes.get(0);
                 if (note.getY() > Sizes.FRAME_HEIGHT) {
                     removeFirstNoteInLane(lane);
                 }
-
             }
             repaint();
         });
         timer.start();
 
-        // Initialize the set to keep track of pressed keys
         keysPressed = new HashSet<>();
-
-        // Add key listener
         setFocusable(true);
         showJudgement = false;
         addKeyListener(new KeyAdapter() {
@@ -106,15 +93,24 @@ public class Player extends JComponent {
                 keysPressed.remove(e.getKeyCode());
             }
         });
+
+        returnButton = new JButton("Return to Home");
+        returnButton.setBounds(200, 400, 150, 50);
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewer.showHomeScreen();
+            }
+        });
+        returnButton.setVisible(false);
+        add(returnButton);
     }
 
     private void removeFirstNoteInLane(int lane) {
         if (!allNotes.get(lane).isEmpty()) {
-
             Note firstNote = allNotes.get(lane).get(0);
             String judgement = Judgements.getJudgement(firstNote.getY());
-            if (judgement.equals("NONE"))
-                return;
+            if (judgement.equals("NONE")) return;
             noteCount++;
             showJudgementMessage();
             judgementMessage = judgement;
@@ -127,13 +123,14 @@ public class Player extends JComponent {
             } else if (judgementMessage.equals("BAD")) {
                 score += 50;
                 combo++;
-            } else{
+            } else {
                 combo = 0;
             }
 
             allNotes.get(lane).remove(0);
-            if(allNotes.get(0).size()==0 && allNotes.get(1).size()==0 && allNotes.get(2).size()==0 && allNotes.get(3).size()==0){
+            if (allNotes.get(0).size() == 0 && allNotes.get(1).size() == 0 && allNotes.get(2).size() == 0 && allNotes.get(3).size() == 0) {
                 isEnd = true;
+                returnButton.setVisible(true);
             }
         }
     }
@@ -155,8 +152,7 @@ public class Player extends JComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        if(!isEnd){
-                
+        if (!isEnd) {
             for (List<Note> notes : allNotes) {
                 for (Note note : notes) {
                     note.draw(g2);
@@ -176,7 +172,6 @@ public class Player extends JComponent {
             g2.drawLine(0, Judgements.JUDGEMENT_LINE, 500, Judgements.JUDGEMENT_LINE);
 
             if (SHOW_JUDGEMENT_LINES) {
-
                 g2.setColor(Color.YELLOW);
                 g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.PERFECT_DIFF, 500,
                         Judgements.JUDGEMENT_LINE + Judgements.PERFECT_DIFF);
@@ -197,11 +192,11 @@ public class Player extends JComponent {
                         Judgements.JUDGEMENT_LINE - Judgements.MISS_DIFF);
                 g2.drawLine(0, Judgements.JUDGEMENT_LINE + Judgements.MISS_DIFF, 500,
                         Judgements.JUDGEMENT_LINE + Judgements.MISS_DIFF);
-
             }
 
             if (showJudgement) {
-                HashMap<String, Color> judgementColor = new HashMap<String, Color>();
+                
+                HashMap<String, Color> judgementColor = new HashMap<>();
                 judgementColor.put("PERFECT", Color.YELLOW);
                 judgementColor.put("GOOD", Color.GREEN);
                 judgementColor.put("BAD", Color.BLUE);
@@ -213,14 +208,13 @@ public class Player extends JComponent {
                 g2.drawString(centeredString, getWidth() / 2 - 130, getHeight() / 2);
                 g2.setColor(Color.WHITE);
                 centeredString = String.format("%4s", String.valueOf(combo));
-                g2.drawString(centeredString, getWidth() / 2 - 50, getHeight() / 2+50);
-                
+                g2.drawString(centeredString, getWidth() / 2 - 50, getHeight() / 2 + 50);
             }
-        }
-        else{
-            // TODO: END SCREEN 
+        } else {
             g2.setColor(Color.WHITE);
-            g2.drawString("END SCREEN",50,50);
+            g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+            g2.drawString("END SCREEN", 200, 200);
+            returnButton.setVisible(true);
         }
     }
 }
