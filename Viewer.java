@@ -26,7 +26,7 @@ public class Viewer {
 
     public Viewer() {
         frame = new JFrame();
-        frame.setSize(Sizes.FRAME_WIDTH, Sizes.FRAME_HEIGHT);
+        frame.setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
         frame.setTitle("OSU Mania");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocation(400, 20);

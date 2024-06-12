@@ -5,8 +5,8 @@ public class Judgements {
     public static final int BAD_DIFF = 100;
     public static final int MISS_DIFF = 150;
     public static String getJudgement(int yPos){
-        if(yPos>Sizes.FRAME_HEIGHT) return "MISS";
-        int diff = Math.abs(yPos+Sizes.NOTE_HEIGHT-JUDGEMENT_LINE);
+        if(yPos>Constants.FRAME_HEIGHT) return "MISS";
+        int diff = Math.abs(yPos+Constants.NOTE_HEIGHT-JUDGEMENT_LINE);
         if(diff<=PERFECT_DIFF) return "PERFECT";
         else if(diff<=GOOD_DIFF) return "GOOD";
         else if(diff<=BAD_DIFF) return "BAD";

@@ -8,29 +8,34 @@ public class RandomizedMapHard implements Beatmap{
     private ArrayList<ArrayList<Note>> allNotes;
     public RandomizedMapHard(SongInfo song){
         allNotes = new ArrayList<>();
+    
         
         for (int i = 0; i < 4; i++) {
             allNotes.add(new ArrayList<Note>());
         }
-        int bpm = song.getBpm(); 
-        for(int i = 0; i < 50; i++){
-            int distance = bpm; // TODO: fix distance
+        /*
+         * Note distance (time) = (60/bpm) seconds
+         * Note moves Constants.NOTE_VELOCITY pixels every (Constants.REFRESH_RATE/1000) seconds. 
+         * Note distance (pixels) = Note distance (time) * NOTE_VELOCITY / (REFRESH_RATE/1000)
+         * = 60/bpm * NOTE_VELOCITY / REFRESH_RATE * 1000
+         * 
+         */
+        //double bpm = song.getBpm();
+        //double distance = 60.0/bpm * Constants.NOTE_VELOCITY / Constants.REFRESH_RATE * 1000; // TODO: fix distance
+        double distance = song.getDistance()/2;
+        int length = song.getLength() * 2;
+        //System.out.println(bpm);
+        //System.out.println(distance);
+        for(int i = 0; i < length; i++){
             int randomLane = (int)(Math.random()*4);
             int randomLane2 = (int)(Math.random()*4);
-            int randomLane3 = (int)(Math.random()*4);
             while(randomLane==randomLane2){
                 randomLane2 = (int)(Math.random()*4);
             }
-            while(randomLane==randomLane3||randomLane2==randomLane3){
-                randomLane3 = (int)(Math.random()*4);
-            }
         
-            allNotes.get(randomLane).add(new Note(randomLane*100+50,-i*distance,randomLane));
-            boolean hasTwoNotes = Math.random()<=0.75;
-            if(hasTwoNotes) allNotes.get(randomLane2).add(new Note(randomLane2*100+50,-i*distance,randomLane2));
-            boolean hasThreeNotes = Math.random()<=0.5;
-            if(hasThreeNotes) allNotes.get(randomLane3).add(new Note(randomLane3*100+50,-i*distance,randomLane3));
-            
+            allNotes.get(randomLane).add(new Note(randomLane*100+50,-song.getOffset()+(int)(-i*distance),randomLane));
+            boolean hasTwoNotes = Math.random()<=0.5;
+            if(hasTwoNotes) allNotes.get(randomLane2).add(new Note(randomLane2*100+50,-song.getOffset()+(int)(-i*distance),randomLane2));
         }
         
     }

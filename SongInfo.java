@@ -1,14 +1,19 @@
 public class SongInfo {
     private int id;
     private String name;
-    private int bpm;
+    private int distance;
+    private int offset;
+    private int length;
     private String filePath;
 
+
     // Constructor
-    public SongInfo(int id, String name, int bpm, String filePath) {
+    public SongInfo(int id, String name, int distance, int offset, int length, String filePath) {
         this.id = id;
         this.name = name;
-        this.bpm = bpm;
+        this.distance = distance;
+        this.offset = offset;
+        this.length = length;
         this.filePath = filePath;
     }
 
@@ -17,31 +22,26 @@ public class SongInfo {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+
+    public int getDistance() {
+        return distance;
     }
 
-    public int getBpm() {
-        return bpm;
+    public int getOffset() {
+        return offset;
+    }
+    public int getLength(){
+        return length;
     }
 
-    public void setBpm(int bpm) {
-        this.bpm = bpm;
-    }
 
     public String getFilePath() {
         return filePath;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
+    
 }

@@ -25,7 +25,6 @@ import javax.swing.Timer;
 
 public class Player extends JComponent {
     private final ArrayList<ArrayList<Note>> allNotes;
-    private final int velocity;
     private final Set<Integer> keysPressed;
     private boolean showJudgement;
     private Timer judgementTimer;
@@ -56,7 +55,7 @@ public class Player extends JComponent {
         isEnd = false;
         noteCount = 0;
         combo = 0;
-        velocity = 25; // Speed at which the notes fall
+        
         Beatmap beatmap = map;
         allNotes = beatmap.getAllNotes();
         /*
@@ -71,11 +70,11 @@ public class Player extends JComponent {
 
         */
         
-        Timer timer = new Timer(30, e -> {
+        Timer timer = new Timer(Constants.REFRESH_RATE, e -> {
             for (int lane = 0; lane < 4; lane++) {
                 List<Note> notes = allNotes.get(lane);
                 for (Note note : notes) {
-                    note.setY(note.getY() + velocity);
+                    note.setY(note.getY() + Constants.NOTE_VELOCITY);
                 }
             }
             for (int lane = 0; lane < 4; lane++) {
@@ -83,7 +82,7 @@ public class Player extends JComponent {
                 if (notes.size() == 0)
                     continue;
                 Note note = notes.get(0);
-                if (note.getY() > Sizes.FRAME_HEIGHT) {
+                if (note.getY() > Constants.FRAME_HEIGHT) {
                     removeFirstNoteInLane(lane);
                 }
             }

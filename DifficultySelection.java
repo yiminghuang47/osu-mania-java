@@ -26,7 +26,7 @@ public class DifficultySelection extends JPanel {
         easyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewer.startGame(new RandomizedMapMedium(song),song);
+                viewer.startGame(new RandomizedMapEasy(song),song);
             }
         });
         gbc.gridy = 1;

@@ -31,9 +31,9 @@ public class Note {
     public void draw(Graphics2D g2) {
         if(lane==0||lane==2) g2.setColor(Color.WHITE);
         else g2.setColor(new Color(61, 165, 255));
-        g2.fill(new Rectangle(xLeft, yTop, Sizes.NOTE_WIDTH,Sizes.NOTE_HEIGHT));
+        g2.fill(new Rectangle(xLeft, yTop, Constants.NOTE_WIDTH,Constants.NOTE_HEIGHT));
         g2.setColor(Color.BLACK);
-        g2.draw(new Rectangle(xLeft, yTop, Sizes.NOTE_WIDTH,Sizes.NOTE_HEIGHT));
+        g2.draw(new Rectangle(xLeft, yTop, Constants.NOTE_WIDTH,Constants.NOTE_HEIGHT));
         
         
     }
