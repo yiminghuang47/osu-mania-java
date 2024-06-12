@@ -1,5 +1,5 @@
 public class Songs {
-    static SongInfo song1 = new SongInfo(1, "Freedom Dive",216, 1300,2000,"C:\\Users\\yimin\\OneDrive\\Documents\\Coding Projects\\OSUJava\\songs\\Freedom Dive.wav");
-    static SongInfo song2 = new SongInfo(2, "ANiMA", 262, 650,334,"C:\\Users\\yimin\\OneDrive\\Documents\\Coding Projects\\OSUJava\\songs\\anima.wav");
+    static SongInfo song1 = new SongInfo(1, "Freedom Dive",216, 945,2000,"C:\\Users\\yimin\\OneDrive\\Documents\\Coding Projects\\OSUJava\\songs\\Freedom Dive.wav");
+    static SongInfo song2 = new SongInfo(2, "ANiMA", 262, 650,337,"C:\\Users\\yimin\\OneDrive\\Documents\\Coding Projects\\OSUJava\\songs\\anima.wav");
     
 }
