@@ -7,6 +7,8 @@ public class Viewer {
     private HomeScreen homeScreen;
     private Player player;
 
+    private DifficultySelection difficultySelection;
+
     public static void main(String[] args) {
         Viewer viewer = new Viewer();
         viewer.showStartScreen();
@@ -33,17 +35,31 @@ public class Viewer {
         frame.setVisible(true);
     }
 
+    
     public void showHomeScreen() {
-        if(startScreen!=null)frame.remove(startScreen);
-        if(player!=null) frame.remove(player);
+        if (startScreen != null) frame.remove(startScreen);
+        if (player != null) frame.remove(player);
+        if (difficultySelection != null) frame.remove(difficultySelection);
+        homeScreen = new HomeScreen(this);
         frame.add(homeScreen);
         frame.revalidate();
         frame.repaint();
         frame.setVisible(true);
     }
 
+    public void showDifficultySelection(String songName) {
+        if (homeScreen != null) frame.remove(homeScreen);
+        difficultySelection = new DifficultySelection(this, songName);
+        frame.add(difficultySelection);
+        frame.revalidate();
+        frame.repaint();
+        frame.setVisible(true);
+    }
+
+
     public void startGame(Beatmap map) {
         if(homeScreen!=null) frame.remove(homeScreen);
+        if(difficultySelection!=null) frame.remove(difficultySelection);
         player = new Player(map,this);
         frame.add(player);
         frame.revalidate();
