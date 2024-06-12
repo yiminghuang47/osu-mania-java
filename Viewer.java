@@ -3,12 +3,13 @@ import javax.swing.JFrame;
 
 public class Viewer {
     private JFrame frame;
+    private StartScreen startScreen;
     private HomeScreen homeScreen;
     private Player player;
 
     public static void main(String[] args) {
         Viewer viewer = new Viewer();
-        viewer.showHomeScreen();
+        viewer.showStartScreen();
     }
 
     public Viewer() {
@@ -19,14 +20,22 @@ public class Viewer {
         frame.setLocation(400, 20);
         frame.getContentPane().setBackground(new Color(0, 0, 0));
 
+        startScreen = new StartScreen(this);
+        
+        frame.add(startScreen);
         homeScreen = new HomeScreen(this);
-        frame.add(homeScreen);
+    }
+
+    public void showStartScreen() {
+        frame.add(startScreen);
+        frame.revalidate();
+        frame.repaint();
+        frame.setVisible(true);
     }
 
     public void showHomeScreen() {
-        if (player != null) {
-            frame.remove(player);
-        }
+        if(startScreen!=null)frame.remove(startScreen);
+        if(player!=null) frame.remove(player);
         frame.add(homeScreen);
         frame.revalidate();
         frame.repaint();
@@ -34,7 +43,7 @@ public class Viewer {
     }
 
     public void startGame(Beatmap map) {
-        frame.remove(homeScreen);
+        if(homeScreen!=null) frame.remove(homeScreen);
         player = new Player(map,this);
         frame.add(player);
         frame.revalidate();

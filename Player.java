@@ -245,7 +245,7 @@ protected void paintComponent(Graphics g) {
     } else {
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-        g2.drawString("SCORE " + score, 150, 100);
+        g2.drawString("SCORE   " + score, 150, 100);
         g2.setColor(Color.YELLOW);
         g2.drawString("PERFECT", 50, 150);
         g2.setColor(Color.WHITE);
