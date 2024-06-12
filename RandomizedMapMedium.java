@@ -22,11 +22,13 @@ public class RandomizedMapMedium implements Beatmap{
          */
         //double bpm = song.getBpm();
         //double distance = 60.0/bpm * Constants.NOTE_VELOCITY / Constants.REFRESH_RATE * 1000; // TODO: fix distance
-        double distance = song.getDistance();
-        int length = song.getLength();
+        double distance = song.getDistance()/2;
+        int length = song.getLength()*2;
         //System.out.println(bpm);
         //System.out.println(distance);
         for(int i = 0; i < length; i++){
+            boolean noNotes = Math.random() < 0.8;
+            if(noNotes&&i%2==1) continue;
             int randomLane = (int)(Math.random()*4);
             int randomLane2 = (int)(Math.random()*4);
             while(randomLane==randomLane2){
