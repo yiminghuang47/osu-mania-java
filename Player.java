@@ -31,6 +31,7 @@ public class Player extends JComponent {
     private boolean isEnd;
     private JButton returnButton;
     private Viewer viewer;
+    private Timer endScreenTimer;
 
     public Player(Beatmap map, Viewer viewer) {
         this.viewer = viewer;
@@ -52,7 +53,8 @@ public class Player extends JComponent {
             }
             for (int lane = 0; lane < 4; lane++) {
                 List<Note> notes = allNotes.get(lane);
-                if (notes.size() == 0) continue;
+                if (notes.size() == 0)
+                    continue;
                 Note note = notes.get(0);
                 if (note.getY() > Sizes.FRAME_HEIGHT) {
                     removeFirstNoteInLane(lane);
@@ -111,7 +113,8 @@ public class Player extends JComponent {
         if (!allNotes.get(lane).isEmpty()) {
             Note firstNote = allNotes.get(lane).get(0);
             String judgement = Judgements.getJudgement(firstNote.getY());
-            if (judgement.equals("NONE")) return;
+            if (judgement.equals("NONE"))
+                return;
             noteCount++;
             showJudgementMessage();
             judgementMessage = judgement;
@@ -127,14 +130,28 @@ public class Player extends JComponent {
             } else {
                 combo = 0;
             }
-            maxCombo = Math.max(combo,maxCombo);
+            maxCombo = Math.max(combo, maxCombo);
 
             allNotes.get(lane).remove(0);
-            if (allNotes.get(0).size() == 0 && allNotes.get(1).size() == 0 && allNotes.get(2).size() == 0 && allNotes.get(3).size() == 0) {
-                isEnd = true;
-                returnButton.setVisible(true);
+            if (allNotes.get(0).size() == 0 && allNotes.get(1).size() == 0 && allNotes.get(2).size() == 0
+                    && allNotes.get(3).size() == 0) {
+                //isEnd = true;
+                // returnButton.setVisible(true);
+                startEndScreenTimer();
             }
         }
+    }
+
+    private void startEndScreenTimer() {
+        if (endScreenTimer != null && endScreenTimer.isRunning()) {
+            endScreenTimer.stop();
+        }
+        endScreenTimer = new Timer(3000, e -> {
+            isEnd = true;
+            repaint();
+        });
+        endScreenTimer.setRepeats(false);
+        endScreenTimer.start();
     }
 
     private void showJudgementMessage() {
@@ -197,7 +214,7 @@ public class Player extends JComponent {
             }
 
             if (showJudgement) {
-                
+
                 HashMap<String, Color> judgementColor = new HashMap<>();
                 judgementColor.put("PERFECT", Color.YELLOW);
                 judgementColor.put("GOOD", Color.GREEN);
@@ -214,16 +231,16 @@ public class Player extends JComponent {
             }
         } else {
             g2.setColor(Color.WHITE);
-        g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-        g2.drawString("Game Over", 150, 100);
-        
-        g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-        g2.drawString("Final Score: " + score, 150, 200);
-        double accuracy = (double) score / (300 * noteCount) * 100;
-        g2.drawString("Final Accuracy: " + String.format("%.2f", accuracy) + " %", 150, 250);
-        g2.drawString("Max Combo: " + maxCombo, 150, 300); 
+            g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+            g2.drawString("Game Over", 150, 100);
 
-        returnButton.setVisible(true);
+            g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+            g2.drawString("Final Score: " + score, 150, 200);
+            double accuracy = (double) score / (300 * noteCount) * 100;
+            g2.drawString("Final Accuracy: " + String.format("%.2f", accuracy) + " %", 150, 250);
+            g2.drawString("Max Combo: " + maxCombo, 150, 300);
+
+            returnButton.setVisible(true);
         }
     }
 }
