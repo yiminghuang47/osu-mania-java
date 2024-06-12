@@ -6,15 +6,17 @@ import java.util.*;
 
 public class RandomizedMapMedium implements Beatmap{
     private ArrayList<ArrayList<Note>> allNotes;
-    public RandomizedMapMedium(){
+    public RandomizedMapMedium(SongInfo song){
         allNotes = new ArrayList<>();
+    
         
         for (int i = 0; i < 4; i++) {
             allNotes.add(new ArrayList<Note>());
         }
         
+        int bpm = song.getBpm();
         for(int i = 0; i < 5; i++){
-            int distance = 125;
+            int distance = bpm; // TODO: fix distance
             int randomLane = (int)(Math.random()*4);
             int randomLane2 = (int)(Math.random()*4);
             while(randomLane==randomLane2){

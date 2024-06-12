@@ -7,9 +7,9 @@ public class DifficultySelection extends JPanel {
     private Viewer viewer;
     private String songName;
 
-    public DifficultySelection(Viewer viewer, String songName) {
+    public DifficultySelection(Viewer viewer, SongInfo song) {
         this.viewer = viewer;
-        this.songName = songName;
+        this.songName = song.getName();
         setBackground(Color.BLACK);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -26,7 +26,7 @@ public class DifficultySelection extends JPanel {
         easyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewer.startGame(new RandomizedMapMedium());
+                viewer.startGame(new RandomizedMapMedium(song),song);
             }
         });
         gbc.gridy = 1;
@@ -36,7 +36,7 @@ public class DifficultySelection extends JPanel {
         mediumButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewer.startGame(new RandomizedMapMedium());
+                viewer.startGame(new RandomizedMapMedium(song),song);
             }
         });
         gbc.gridy = 2;
@@ -46,7 +46,7 @@ public class DifficultySelection extends JPanel {
         hardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewer.startGame(new RandomizedMapHard());
+                viewer.startGame(new RandomizedMapHard(song),song);
             }
         });
         gbc.gridy = 3;

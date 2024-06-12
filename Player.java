@@ -6,11 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.Timer;
@@ -37,9 +45,12 @@ public class Player extends JComponent {
     private int goodCount;
     private int badCount;
     private int missCount;
+    
+    private SongInfo song;
 
-    public Player(Beatmap map, Viewer viewer) {
+    public Player(Beatmap map, Viewer viewer, SongInfo song) {
         this.viewer = viewer;
+        this.song = song;
         judgementMessage = "";
         score = 0;
         isEnd = false;
@@ -48,7 +59,18 @@ public class Player extends JComponent {
         velocity = 25; // Speed at which the notes fall
         Beatmap beatmap = map;
         allNotes = beatmap.getAllNotes();
+        /*
+        Timer startTimer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        startTimer.setRepeats(false); // Only execute the action once
+        startTimer.start(); 
 
+        */
+        
         Timer timer = new Timer(30, e -> {
             for (int lane = 0; lane < 4; lane++) {
                 List<Note> notes = allNotes.get(lane);
