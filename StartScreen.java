@@ -35,7 +35,7 @@ public class StartScreen extends JPanel {
         add(authorsLabel);
 
         
-        JLabel description = new JLabel("<html><p>This is a ripoff version of the popular (?) rhythm game <br> <span style='color:#ff8ee6;'>osu! mania</span> coded in Java. It serves as our AP CS Final Project.</p> <br> <p>It's open-source and you can add your own songs. It also generates beatmaps randomly.</p></html>");
+        JLabel description = new JLabel("<html><p>This is a ripoff version of the popular (?) rhythm game <br> <span style='color:#ff8ee6;'>osu! mania</span>. It's coded in Java and it serves as our AP CS Final Project.</p> <br> <p>It's open-source and you can add your own songs. It also generates beatmaps randomly.</p></html>");
         description.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 14));
         description.setForeground(Color.WHITE);
         description.setBounds(50, 150, 400, 150);
