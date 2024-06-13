@@ -1,10 +1,14 @@
+/**
+ * The `SongInfo` class represents information about a song including its ID, name, distance, offset,
+ * length, and file path.
+ */
 public class SongInfo {
-    private int id;
-    private String name;
-    private int distance;
-    private int offset;
-    private int length;
-    private String filePath;
+    private int id; // unique identifier for each song
+    private String name; // artist and title of the song
+    private int distance; // distance (in pixels) between each notes. The smaller the distance, the denser the notes are.
+    private int offset; // used to line up the first note with the beginning of the song. The smaller the offset, the quicker the first note will come.
+    private int length; // length of the song. Note that it's not measured in time units like minutes or seconds. See RandomizedMapEasy.java for its exact usage.
+    private String filePath; // file path of the song
 
 
     // Constructor
@@ -17,7 +21,6 @@ public class SongInfo {
         this.filePath = filePath;
     }
 
-    // Getters and setters
     public int getId() {
         return id;
     }
