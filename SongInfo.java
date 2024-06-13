@@ -9,16 +9,18 @@ public class SongInfo {
     private int offset; // used to line up the first note with the beginning of the song. The smaller the offset, the quicker the first note will come.
     private int length; // length of the song. Note that it's not measured in time units like minutes or seconds. See RandomizedMapEasy.java for its exact usage.
     private String filePath; // file path of the song
+    private String imagePath; // path of the image of the song
 
 
     // Constructor
-    public SongInfo(int id, String name, int distance, int offset, int length, String filePath) {
+    public SongInfo(int id, String name, int distance, int offset, int length, String filePath, String imagePath) {
         this.id = id;
         this.name = name;
         this.distance = distance;
         this.offset = offset;
         this.length = length;
         this.filePath = filePath;
+        this.imagePath = imagePath;
     }
 
     public int getId() {
@@ -44,6 +46,9 @@ public class SongInfo {
 
     public String getFilePath() {
         return filePath;
+    }
+    public String getImagePath(){
+        return imagePath;
     }
 
     

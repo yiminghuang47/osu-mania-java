@@ -1,7 +1,9 @@
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -14,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -44,6 +47,9 @@ public class Player extends JComponent {
     private int goodCount;
     private int badCount;
     private int missCount;
+
+    private Image backgroundImage;
+    
     
     private SongInfo song;
 
@@ -58,6 +64,13 @@ public class Player extends JComponent {
         
         Beatmap beatmap = map;
         allNotes = beatmap.getAllNotes();
+
+        // Load the background image
+        try {
+            backgroundImage = ImageIO.read(new File(song.getImagePath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         /*
         Timer startTimer = new Timer(3000, new ActionListener() {
             @Override
@@ -200,12 +213,38 @@ public class Player extends JComponent {
         judgementTimer.setRepeats(false);
         judgementTimer.start();
     }
-
+    public void drawScaledImage(Graphics2D g2d, Image img, int panelWidth, int panelHeight, float opacity) {
+        int imgWidth = img.getWidth(null);
+        int imgHeight = img.getHeight(null);
+    
+        // Calculate the scaling factor to fit the image within the panel
+        double scale = Math.max((double) panelWidth / imgWidth, (double) panelHeight / imgHeight);
+        
+        // Calculate the new width and height of the scaled image
+        int newWidth = (int) (imgWidth * scale);
+        int newHeight = (int) (imgHeight * scale);
+    
+        // Calculate the position to center the image
+        int x = (panelWidth - newWidth) / 2;
+        int y = (panelHeight - newHeight) / 2;
+    
+        // Set the alpha (transparency) value
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+    
+        // Draw the scaled image
+        g2d.drawImage(img, x, y, newWidth, newHeight, null);
+    }
     
     @Override
 protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D) g;
+    if (backgroundImage != null) {
+        Graphics2D g2d = (Graphics2D) g.create();
+        drawScaledImage(g2d, backgroundImage, getWidth(), getHeight(), 0.3f);
+        g2d.dispose();
+    }
+
     if (!isEnd) {
         for (List<Note> notes : allNotes) {
             for (Note note : notes) {
