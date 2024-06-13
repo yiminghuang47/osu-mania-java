@@ -35,17 +35,17 @@ public class StartScreen extends JPanel {
         add(authorsLabel);
 
         
-        JLabel description = new JLabel("<html><p>This is a ripoff version of the popular (?) game <br> <span style='color:#ff8ee6;'>osu! mania</span> coded in Java. It serves as our AP CS Final Project.</p></html>");
+        JLabel description = new JLabel("<html><p>This is a ripoff version of the popular (?) rhythm game <br> <span style='color:#ff8ee6;'>osu! mania</span> coded in Java. It serves as our AP CS Final Project.</p> <br> <p>It's open-source and you can add your own songs. It also generates beatmaps randomly.</p></html>");
         description.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 14));
         description.setForeground(Color.WHITE);
-        description.setBounds(50, 150, 400, 100);
+        description.setBounds(50, 150, 400, 150);
         add(description);
 
         JButton startButton = new JButton("Start");
         startButton.setBackground(new Color(255, 142, 230)); 
         startButton.setForeground(Color.WHITE); 
         startButton.setFont(new Font("Lucida Sans Unicode", Font.BOLD, 35)); 
-        startButton.setBounds(150, 300, 200, 60); 
+        startButton.setBounds(150, 330, 200, 60); 
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

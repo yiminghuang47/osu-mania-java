@@ -32,7 +32,7 @@ public class Player extends JComponent {
     private boolean showJudgement;
     private Timer judgementTimer;
     private String judgementMessage;
-    private final boolean SHOW_JUDGEMENT_LINES = false;
+    private final boolean SHOW_JUDGEMENT_LINES = false; // for testing use only
 
     private int noteCount;
     private int score;
