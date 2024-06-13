@@ -41,7 +41,7 @@ public class SongSelectionScreen extends JPanel {
         gbc.gridy = 2;
         add(song2Button, gbc);
 
-        // Add more buttons for additional songs
+        
         SongInfo song3 = Songs.song3;
         JButton song3Button = new JButton(song3.getName()); 
         song3Button.addActionListener(new ActionListener() {
@@ -52,6 +52,17 @@ public class SongSelectionScreen extends JPanel {
         });
         gbc.gridy = 3;
         add(song3Button, gbc);
+
+        SongInfo song4 = Songs.song4;
+        JButton song4Button = new JButton(song4.getName()); 
+        song4Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewer.showDifficultySelection(song4);
+            }
+        });
+        gbc.gridy = 4;
+        add(song4Button, gbc);
         
     }
 }
