@@ -15,8 +15,9 @@ public class DifficultySelection extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        JLabel titleLabel = new JLabel("<html>Select Difficulty for <br>" + songName + "</html>");
-        titleLabel.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+        JLabel titleLabel = new JLabel("<html><p>Select Difficulty for <br>" + songName + "</p></html>");
+        titleLabel.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+       
         titleLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 0;
