@@ -5,16 +5,20 @@ import javax.swing.*;
 
 public class SongSelectionScreen extends JPanel {
     private Viewer viewer;
-
+    private Image backgroundImage;
     public SongSelectionScreen(Viewer viewer) {
         this.viewer = viewer;
         setLayout(new GridBagLayout());
         setBackground(Color.BLACK);
+         // Load the background image
+         ImageIcon backgroundImageIcon = new ImageIcon("images/background.jpg"); // Replace "background.jpg" with your image file path
+         backgroundImage = backgroundImageIcon.getImage();
+ 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
         JLabel titleLabel = new JLabel("Select Song");
-        titleLabel.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+        titleLabel.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 40));
         titleLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -71,5 +75,11 @@ public class SongSelectionScreen extends JPanel {
         gbc.gridx = 1;
         gbc.gridy = 2;
         add(song4Button, gbc);
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        // Draw the background image
+        g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
     }
 }
