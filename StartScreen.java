@@ -28,7 +28,7 @@ public class StartScreen extends JPanel {
         titleLabel.setBounds(75, 100, 500, 50);
         add(titleLabel);
         
-        JLabel authorsLabel = new JLabel("<html><p>Authors: <br> Yiming Huang, Genji Tsuchihashi, Elliot Tanalski</p></html>");
+        JLabel authorsLabel = new JLabel("<html><p>Authors: <br> Yiming Huang, Genji Tsuchihashi, Elliott Tanalski</p></html>");
         authorsLabel.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 15));
         authorsLabel.setForeground(Color.WHITE);
         authorsLabel.setBounds(50, 400, 400, 50);
