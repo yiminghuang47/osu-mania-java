@@ -16,6 +16,7 @@ public class Viewer {
     private StartScreen startScreen;
     private SongSelectionScreen homeScreen;
     private Player player;
+    private Clip clip;
 
     private DifficultySelection difficultySelection;
 
@@ -86,7 +87,7 @@ public class Viewer {
             return;
         }
 
-        Clip clip = (Clip) AudioSystem.getLine(info);
+        clip = (Clip) AudioSystem.getLine(info);
         clip.open(audioStream);
         clip.start();
     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
@@ -99,5 +100,10 @@ public class Viewer {
         frame.revalidate();
         frame.repaint();
         player.requestFocusInWindow();
+    }
+    public void stopAudio(){
+        if (clip != null && clip.isOpen() && clip.isRunning()) {
+            clip.stop(); // Stop the audio clip
+        }
     }
 }

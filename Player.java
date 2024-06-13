@@ -40,6 +40,7 @@ public class Player extends JComponent {
     private int maxCombo;
     private boolean isEnd;
     private JButton returnButton;
+    private JButton returnButton1;
     private Viewer viewer;
     private Timer endScreenTimer;
 
@@ -146,6 +147,22 @@ public class Player extends JComponent {
         });
         returnButton.setVisible(false);
         add(returnButton);
+
+        // Initialize the return button
+        returnButton1 = new JButton("←");
+        returnButton1.setBounds(20, 20, 70, 50); // Adjust position and size as needed
+        returnButton1.setBackground(null);
+        returnButton1.setForeground(Color.WHITE);
+        returnButton1.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 30));
+        returnButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewer.stopAudio();
+                viewer.showHomeScreen(); // Call method to show song selection screen
+            }
+        });
+        add(returnButton1); // Add the return button to the player component
+
     }
 
     
@@ -253,13 +270,13 @@ protected void paintComponent(Graphics g) {
         }
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 35));
-        g2.drawString(String.format("%08d",score), 300, 100);
+        g2.drawString(String.format("%08d",score), 300, 50);
         double accuracy = 100.00;
         if (noteCount != 0) {
             accuracy = (double) score / (300 * noteCount) * 100;
         }
         g2.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 30));
-        g2.drawString(String.format("%.2f", accuracy) + " %", 350, 150);
+        g2.drawString(String.format("%.2f", accuracy) + " %", 350, 100);
 
         g2.setColor(Color.WHITE);
         g2.drawLine(0, Judgements.JUDGEMENT_LINE, 500, Judgements.JUDGEMENT_LINE);
@@ -339,7 +356,7 @@ protected void paintComponent(Graphics g) {
         
         g2.drawString(String.format("%.2f", accuracy) + " %", 275, 350);
         
-
+        returnButton1.setVisible(false);
         returnButton.setVisible(true);
     }
 }
