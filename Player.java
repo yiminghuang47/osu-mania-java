@@ -252,13 +252,13 @@ protected void paintComponent(Graphics g) {
             }
         }
         g2.setColor(Color.WHITE);
-        g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+        g2.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 35));
         g2.drawString(String.format("%08d",score), 300, 100);
         double accuracy = 100.00;
         if (noteCount != 0) {
             accuracy = (double) score / (300 * noteCount) * 100;
         }
-        g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+        g2.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 30));
         g2.drawString(String.format("%.2f", accuracy) + " %", 350, 150);
 
         g2.setColor(Color.WHITE);
@@ -295,14 +295,14 @@ protected void paintComponent(Graphics g) {
             judgementColor.put("MISS", Color.RED);
 
             g2.setColor(judgementColor.get(judgementMessage));
-            g2.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+            g2.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 40));
             String centeredString = String.format("%10s", judgementMessage);
             g2.drawString(centeredString, getWidth() / 2 - 130, getHeight() / 2);
             g2.setColor(Color.WHITE);
             centeredString = String.format("%4s", String.valueOf(combo));
             g2.drawString(centeredString, getWidth() / 2 - 50, getHeight() / 2 + 50);
         }
-        g2.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+        g2.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 50));
         
         g2.drawString("D",85,525);
         g2.drawString("F",185,525);
@@ -310,7 +310,7 @@ protected void paintComponent(Graphics g) {
         g2.drawString("K",385,525);
     } else {
         g2.setColor(Color.WHITE);
-        g2.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+        g2.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 30));
         g2.drawString("SCORE   " + score, 150, 100);
         g2.setColor(Color.YELLOW);
         g2.drawString("PERFECT", 50, 150);

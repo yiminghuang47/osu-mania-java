@@ -21,7 +21,7 @@ public class StartScreen extends JPanel {
         ImageIcon backgroundImageIcon = new ImageIcon("images/background.jpg"); // Replace "background.jpg" with your image file path
         backgroundImage = backgroundImageIcon.getImage();
 
-        JLabel titleLabel = new JLabel("<html><span style='color:#ff8ee6;'>O</span>p<span style='color:#ff8ee6;'>S</span>e<span style='color:#ff8ee6;'>U</span>do! <span style='color:#ff8ee6;'>mania</span></html>");
+        JLabel titleLabel = new JLabel("<html><span style='color:#ff8ee6;'>O</span>p<span style='color:#ff8ee6;'>S</span>e<span style='color:#ff8ee6;'>U</span>do<span style='color:#ff8ee6;'>!</span> <span style='color:#ff8ee6;'>mania</span></html>");
         
         titleLabel.setFont(new Font("Lucida Sans Unicode", Font.BOLD, 40));
         titleLabel.setForeground(Color.WHITE);

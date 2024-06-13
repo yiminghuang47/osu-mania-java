@@ -28,7 +28,7 @@ public class DifficultySelection extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
 
         JLabel titleLabel = new JLabel("<html><p>Select Difficulty for <br>" + songName + "</p></html>");
-        titleLabel.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+        titleLabel.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, 30));
         titleLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 0;
