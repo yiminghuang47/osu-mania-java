@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+
 public class SongSelectionScreen extends JPanel {
     private Viewer viewer;
 
@@ -17,7 +18,11 @@ public class SongSelectionScreen extends JPanel {
         titleLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.gridwidth = 2; // Span across two columns
         add(titleLabel, gbc);
+
+        gbc.gridwidth = 1; // Reset to default
+        gbc.gridy = 1; // Start adding buttons below the title
 
         SongInfo song1 = Songs.song1;
         JButton song1Button = new JButton(song1.getName());
@@ -27,6 +32,7 @@ public class SongSelectionScreen extends JPanel {
                 viewer.showDifficultySelection(song1);
             }
         });
+        gbc.gridx = 0;
         gbc.gridy = 1;
         add(song1Button, gbc);
 
@@ -38,10 +44,10 @@ public class SongSelectionScreen extends JPanel {
                 viewer.showDifficultySelection(song2);
             }
         });
-        gbc.gridy = 2;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
         add(song2Button, gbc);
 
-        
         SongInfo song3 = Songs.song3;
         JButton song3Button = new JButton(song3.getName()); 
         song3Button.addActionListener(new ActionListener() {
@@ -50,7 +56,8 @@ public class SongSelectionScreen extends JPanel {
                 viewer.showDifficultySelection(song3);
             }
         });
-        gbc.gridy = 3;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
         add(song3Button, gbc);
 
         SongInfo song4 = Songs.song4;
@@ -61,8 +68,8 @@ public class SongSelectionScreen extends JPanel {
                 viewer.showDifficultySelection(song4);
             }
         });
-        gbc.gridy = 4;
+        gbc.gridx = 1;
+        gbc.gridy = 2;
         add(song4Button, gbc);
-        
     }
 }
