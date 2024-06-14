@@ -6,14 +6,16 @@ import javax.swing.*;
 public class SongSelectionScreen extends JPanel {
     private Viewer viewer;
     private Image backgroundImage;
+
     public SongSelectionScreen(Viewer viewer) {
         this.viewer = viewer;
         setLayout(new GridBagLayout());
         setBackground(Color.BLACK);
-         // Load the background image
-         ImageIcon backgroundImageIcon = new ImageIcon("images/background.jpg"); // Replace "background.jpg" with your image file path
-         backgroundImage = backgroundImageIcon.getImage();
- 
+        // Load the background image
+        ImageIcon backgroundImageIcon = new ImageIcon("images/background.jpg"); 
+                                                                                
+        backgroundImage = backgroundImageIcon.getImage();
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
@@ -41,7 +43,7 @@ public class SongSelectionScreen extends JPanel {
         add(song1Button, gbc);
 
         SongInfo song2 = Songs.song2;
-        JButton song2Button = new JButton(song2.getName()); 
+        JButton song2Button = new JButton(song2.getName());
         song2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -53,7 +55,7 @@ public class SongSelectionScreen extends JPanel {
         add(song2Button, gbc);
 
         SongInfo song3 = Songs.song3;
-        JButton song3Button = new JButton(song3.getName()); 
+        JButton song3Button = new JButton(song3.getName());
         song3Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,7 +67,7 @@ public class SongSelectionScreen extends JPanel {
         add(song3Button, gbc);
 
         SongInfo song4 = Songs.song4;
-        JButton song4Button = new JButton(song4.getName()); 
+        JButton song4Button = new JButton(song4.getName());
         song4Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,7 +79,7 @@ public class SongSelectionScreen extends JPanel {
         add(song4Button, gbc);
 
         SongInfo song5 = Songs.song5;
-        JButton song5Button = new JButton(song5.getName()); 
+        JButton song5Button = new JButton(song5.getName());
         song5Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,6 +90,7 @@ public class SongSelectionScreen extends JPanel {
         gbc.gridy = 3;
         add(song5Button, gbc);
     }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

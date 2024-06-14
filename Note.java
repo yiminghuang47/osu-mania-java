@@ -11,30 +11,36 @@ public class Note {
     private int yTop;
     private int lane;
 
-    public Note(int x, int y,int lane) {
+    public Note(int x, int y, int lane) {
         xLeft = x;
         yTop = y;
         this.lane = lane;
     }
-    public void setX(int xLeft){
+
+    public void setX(int xLeft) {
         this.xLeft = xLeft;
     }
-    public void setY(int yTop){
+
+    public void setY(int yTop) {
         this.yTop = yTop;
     }
-    public int getY(){
+
+    public int getY() {
         return yTop;
     }
-    public int getX(){
+
+    public int getX() {
         return xLeft;
     }
+
     public void draw(Graphics2D g2) {
-        if(lane==0||lane==2) g2.setColor(Color.WHITE);
-        else g2.setColor(new Color(61, 165, 255));
-        g2.fill(new Rectangle(xLeft, yTop, Constants.NOTE_WIDTH,Constants.NOTE_HEIGHT));
+        if (lane == 0 || lane == 2)
+            g2.setColor(Color.WHITE);
+        else
+            g2.setColor(new Color(61, 165, 255));
+        g2.fill(new Rectangle(xLeft, yTop, Constants.NOTE_WIDTH, Constants.NOTE_HEIGHT));
         g2.setColor(Color.BLACK);
-        g2.draw(new Rectangle(xLeft, yTop, Constants.NOTE_WIDTH,Constants.NOTE_HEIGHT));
-        
-        
+        g2.draw(new Rectangle(xLeft, yTop, Constants.NOTE_WIDTH, Constants.NOTE_HEIGHT));
+
     }
 }

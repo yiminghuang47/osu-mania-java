@@ -34,7 +34,7 @@ public class Viewer {
         frame.getContentPane().setBackground(new Color(0, 0, 0));
 
         startScreen = new StartScreen(this);
-        
+
         frame.add(startScreen);
         homeScreen = new SongSelectionScreen(this);
     }
@@ -46,11 +46,13 @@ public class Viewer {
         frame.setVisible(true);
     }
 
-    
     public void showHomeScreen() {
-        if (startScreen != null) frame.remove(startScreen);
-        if (player != null) frame.remove(player);
-        if (difficultySelection != null) frame.remove(difficultySelection);
+        if (startScreen != null)
+            frame.remove(startScreen);
+        if (player != null)
+            frame.remove(player);
+        if (difficultySelection != null)
+            frame.remove(difficultySelection);
         homeScreen = new SongSelectionScreen(this);
         frame.add(homeScreen);
         frame.revalidate();
@@ -59,7 +61,8 @@ public class Viewer {
     }
 
     public void showDifficultySelection(SongInfo song) {
-        if (homeScreen != null) frame.remove(homeScreen);
+        if (homeScreen != null)
+            frame.remove(homeScreen);
         difficultySelection = new DifficultySelection(this, song);
         frame.add(difficultySelection);
         frame.revalidate();
@@ -67,41 +70,43 @@ public class Viewer {
         frame.setVisible(true);
     }
 
-
     public void startGame(Beatmap map, SongInfo song) {
         // Play Audio
         String filePath = song.getFilePath();
         try {
-        File audioFile = new File(filePath);
-        if (!audioFile.exists()) {
-            System.err.println("Audio file does not exist: " + filePath);
-            return;
+            File audioFile = new File(filePath);
+            if (!audioFile.exists()) {
+                System.err.println("Audio file does not exist: " + filePath);
+                return;
+            }
+
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            AudioFormat format = audioStream.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+
+            if (!AudioSystem.isLineSupported(info)) {
+                System.err.println("Audio line is not supported: " + filePath);
+                return;
+            }
+
+            clip = (Clip) AudioSystem.getLine(info);
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
         }
-
-        AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-        AudioFormat format = audioStream.getFormat();
-        DataLine.Info info = new DataLine.Info(Clip.class, format);
-
-        if (!AudioSystem.isLineSupported(info)) {
-            System.err.println("Audio line is not supported: " + filePath);
-            return;
-        }
-
-        clip = (Clip) AudioSystem.getLine(info);
-        clip.open(audioStream);
-        clip.start();
-    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-        e.printStackTrace();
-    }
-        if(homeScreen!=null) frame.remove(homeScreen);
-        if(difficultySelection!=null) frame.remove(difficultySelection);
-        player = new Player(map,this,song);
+        if (homeScreen != null)
+            frame.remove(homeScreen);
+        if (difficultySelection != null)
+            frame.remove(difficultySelection);
+        player = new Player(map, this, song);
         frame.add(player);
         frame.revalidate();
         frame.repaint();
         player.requestFocusInWindow();
     }
-    public void stopAudio(){
+
+    public void stopAudio() {
         if (clip != null && clip.isOpen() && clip.isRunning()) {
             clip.stop(); // Stop the audio clip
         }

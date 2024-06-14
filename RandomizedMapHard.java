@@ -10,27 +10,16 @@ public class RandomizedMapHard implements Beatmap {
         for (int i = 0; i < 4; i++) {
             allNotes.add(new ArrayList<Note>());
         }
-        /*
-         * Note distance (time) = (60/bpm) seconds
-         * Note moves Constants.NOTE_VELOCITY pixels every (Constants.REFRESH_RATE/1000)
-         * seconds.
-         * Note distance (pixels) = Note distance (time) * NOTE_VELOCITY /
-         * (REFRESH_RATE/1000)
-         * = 60/bpm * NOTE_VELOCITY / REFRESH_RATE * 1000
-         * 
-         */
-        // double bpm = song.getBpm();
-        // double distance = 60.0/bpm * Constants.NOTE_VELOCITY / Constants.REFRESH_RATE
-        // * 1000; // TODO: fix distance
+
         double distance = song.getDistance() / 2;
         int length = song.getLength() * 2;
-        // System.out.println(bpm);
-        // System.out.println(distance);
+
         int prevLane1 = -1;
         int prevLane2 = -1;
         for (int i = 0; i < length; i++) {
             boolean noNotes = Math.random() < 0.05;
-            if(noNotes) continue;
+            if (noNotes)
+                continue;
             int randomLane = (int) (Math.random() * 4);
             boolean repeatNotes = Math.random() < 0.3;
             if (!repeatNotes) {
