@@ -75,6 +75,18 @@ public class SongSelectionScreen extends JPanel {
         gbc.gridx = 1;
         gbc.gridy = 2;
         add(song4Button, gbc);
+
+        SongInfo song5 = Songs.song5;
+        JButton song5Button = new JButton(song5.getName()); 
+        song5Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewer.showDifficultySelection(song5);
+            }
+        });
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        add(song5Button, gbc);
     }
     @Override
     protected void paintComponent(Graphics g) {

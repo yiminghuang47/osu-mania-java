@@ -72,17 +72,6 @@ public class Player extends JComponent {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /*
-        Timer startTimer = new Timer(3000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-            }
-        });
-        startTimer.setRepeats(false); // Only execute the action once
-        startTimer.start(); 
-
-        */
         
         Timer timer = new Timer(Constants.REFRESH_RATE, e -> {
             for (int lane = 0; lane < 4; lane++) {
